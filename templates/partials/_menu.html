@@ -1,0 +1,45 @@
+<div class="menu col-sm-6 mx-auto">
+    <div class="menu-item"><a href="{% url 'menu-list' %}"><i class="fas fa-utensils"></i></a></div>
+    <div class="menu-item"><a href=""data-toggle="modal" data-target="#exampleModal"><i class="fas fa-search"></i></a></div>
+    <div class="menu-item"><a href="{% url 'create' %}"><i class="fas fa-plus-circle"></i></a></div>
+    <div class="menu-item"><a href="{% url 'explore' %}"><i class="fas fa-compass"></i></a></div>
+    <div class="menu-item"><a href="{{request.user.userprofile.get_absolute_url}}"><i class="fas fa-user"></i></a></div>
+</div>
+
+<style>
+    .menu {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        background: crimson;
+        height: 30px;
+        width: 300px;
+        position: fixed;
+        bottom: 1px;
+        left: 38%;
+        border-top-left-radius:20px;
+        border-top-right-radius:20px;
+    }
+    .menu-item i{
+        margin: auto;
+        padding: 10px;
+        margin-bottom: 10%;
+        color: white;
+        height: 40px;
+        width: 40px;
+        font-size: 20px;
+    }
+    .menu-item i:hover {
+        transform: translateY(-5px);
+        transition: 0.2s;
+        cursor: pointer;
+    }
+
+    @media screen and (max-width:400px) {
+        .menu {
+            left: 0;
+            display:flex;
+            width: 100%;
+        }
+    }
+</style>

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{%block title%} FavFoodz Home | Upload Restaurant {% endblock title %}
+
+{% block content %}
+<div class="row mt-3">
+        <div class="col-md-4 mx-auto card p-3 mt-4 mb-3">
+                <h4 class="heading font-weight-bold text-danger text-center mt-2">{{title}} {{form.instance.name}}</h4>
+                <hr>
+            {% if form.errors.non_field_errors %}
+            {{form.errors.non_field_errors}}
+            {% endif %}
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form}}
+                <input type="submit" value="Upload" class="w-75 ml-5 text-center my-2 btn btn-danger text-white">
+            </form>
+        </div>
+</div>
+
+
+{% endblock content %}

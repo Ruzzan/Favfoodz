@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{%block title%} Menus | FavFoodz {% endblock title %}
+
+{% block head %}
+<style>
+    #pp {
+        height: 30px;
+        width: 30px;
+        border: 3px solid rgb(226, 20, 61);
+        border-radius: 50%;
+    }
+</style>
+{% endblock head %}
+{% block content %}
+<h3 class="text-danger ml-lg-5 ml-md-5 ml-sm-0 "> Menu List </h3>
+<span class="ml-5 ml-md-5 ml-sm-0">
+    <a href="{% url 'menu-create' %}" class="badge badge-danger">Add Menus</a>
+    <a href="{% url 'home' %}" class="badge badge-light"> Restaurants</a>
+</span>
+<div class="row">
+    {% for item in object_list %}
+    {% load static %}
+    {% if item.public %}
+    <div class="col-md-4 mb-3 main">
+        <div class="card mx-auto" style="height:auto;width:250px;">
+            <img src="{% if item.image %}{{ item.image.url }}{% else %}
+                            {% static 'images/item.jpg' %}
+                        {% endif %}
+                        " alt="" class="card-img-top" height="150">
+            <div class="card-body" style="line-height: 12px;">
+                <h5 class="card-title text-danger">{{item.name}}</h5>
+                <p class="card-text"> Restaurant: <a href="{{item.restaurant.get_absolute_url}}">{{item.restaurant}}</a>
+                </p>
+
+                <p class="card-text"> Uploader: <a href="{{item.user.userprofile.get_absolute_url}}">{{item.user}}</a>
+                </p>
+
+                <p class="card-text text-muted"> Uploaded on: {{item.timestamp|date}}</p>
+                <a href="{{item.get_absolute_url}}" class="btn btn-danger btn-sm py-0">more</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% include 'partials/_menum.html' %}
+{% endblock content %}

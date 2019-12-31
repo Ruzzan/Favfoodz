@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title%} {{restaurant.name}} | FavFoodz {% endblock title %}
+
+{% block head %}
+<style>
+    @media screen and (max-width:400px) {
+        img {
+            height: 100px;
+            width: 190px;
+        }
+        #x {
+            margin-right: 50px;
+        }
+        .card {
+            min-width: 100%;
+        }
+        .container {
+            width: inherit;
+        }
+    }
+</style>
+{% endblock head %}
+
+{% block content %}
+{% include 'partials/_alert.html' %}
+<div class="card mt-2 mx-auto main" style="box-shadow:2px 7px 15px -4px rgba(0,0,0,0.75);width:90%;">
+    <div class="row mx-2 mt-2">
+        <div class="col-md-5 col-sm-12">
+            <img id="x" src="{% if restaurant.image %}{{restaurant.image.url}}{% else %}{% static 'images/nophoto.jpg' %}{% endif%}" class="mr-sm-2" width="99%" height="250" style="border-radius:5px;">
+        </div>
+        <div class="col-md-6 col-sm-12 ml-3">
+            <h3 class="center text-danger">{{restaurant.name}}</h3>
+            <div class="row">
+                <div class="col-md-6 col-sm-12" style="font-weight:500;font-size:20px;"> <i class="fas fa-map-marker-alt text-warning"></i>
+                    {{restaurant.location}} </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12" style="font-weight:500;font-size:20px;"> <i class="fas fa-utensils text-danger"></i>
+                    {{restaurant.category}} </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12" style="font-weight:500;font-size:18px;"> <i class="fas fa-user text-primary"></i>
+  <a href="{{restaurant.owner.userprofile.get_absolute_url}}">   {{restaurant.owner}}  </a></div>
+            </div>
+            <div class="row">
+                    <div class="col-md-6 col-sm-12" style="font-weight:500;font-size:20px;"> <i class="fas fa-calendar-check text-muted"></i>
+                        {{restaurant.timestamp|date}} </div>
+                </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12 mr-auto">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6" id="like-section">
+                        {% include 'partials/_like.html' %}
+                        </div>
+
+            <div class="col-md-6 col-sm-6">
+                <form action="{% url 'add-dashboard' restaurant.pk restaurant.slug %}" method="post">
+                    {% csrf_token %}
+                    {% if fav %}
+                    <button type="submit" class="btn btn-danger btn-sm p-0 px-2">  <i class="fas fa-minus-square"></i> Remove</button>
+                    {% else %}
+                    <button type="submit" class="btn btn-success btn-sm p-0 px-2"><i
+                            class="fas fa-bookmark"></i> Save</button>
+                    {% endif %}
+                </form>
+            </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    {% if restaurant.item_set.all  %}
+    <hr>
+    <h4 class="text-danger mt-2 ml-4"> Available Menus </h4>
+    <div class="row mt-2 p-0" style="height: 259px;overflow-y:scroll;">
+        {% for item in restaurant.item_set.all %}
+        {% include 'partials/_menucard.html' %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <h3 class="mt-2 ml-4 text-danger">No Menus Uploaded.</h3>
+    {% endif %}
+    
+{% if nearby %}
+<hr>
+    <h4 class="text-danger mt-2 ml-4"> More Restaurants in {{restaurant.location}} </h4>
+<div class="row more-restaurants">
+        {% for restaurant in nearby %}
+            <div class="col-md-4 mb-3 col-sm-12">
+                    <div class="card mx-auto" style="height:auto;width:auto;">
+                    <img src="{% if restaurant.image %}{{ restaurant.image.url }}{% else %}
+                        {% static 'images/changehere' %}
+                    {% endif %}
+                    " alt="" class="card-img-top" height="150" >
+                    <div class="card-body h-100 text-center">
+                        <h5 class="card-title"><a href="{{restaurant.get_absolute_url}}" class="text-dark"><i class="fa fa-user"></i> {{restaurant.name}} </a></h5>
+                    <div class="card-text mt-2">
+                    <a href="{{restaurant.get_absolute_url}}" class="btn btn-success btn-sm mr-auto">
+                        <i class="fas fa-info"></i> More
+                    </a> 
+                    </div>
+                    </div>
+                    </div>
+            </div>
+            {% endfor %}
+    </div>
+{% endif %}
+</div>
+
+
+{% endblock content %}

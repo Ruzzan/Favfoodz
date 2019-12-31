@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% for restaurant in favrestaurants %}
+
+<a href="{{restaurant.get_absolute_url}}"> {{restaurant}} </a> 
+
+<form action="{% url 'remove-dashboard' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" name="favrest" value="{{restaurant.id}}"> remove </button>
+</form>
+
+<br>
+
+{% endfor%}
+
+{% endblock content %}

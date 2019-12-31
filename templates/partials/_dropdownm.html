@@ -1,0 +1,17 @@
+<div class="dropdown" style="position:relative;margin-left:90%;cursor:pointer">
+        <i class="fas fa-ellipsis-h" type="" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+        </i>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <a href="{% url 'menu-update' item.pk%}" class="dropdown-item" type="button">Edit <i class="fa fa-edit text-primary"></i></a>
+        <form action="{% url 'menu-delete' item.pk %}" method="post">
+            {% csrf_token%}
+        <button type="submit" class="dropdown-item" >Delete <i class="fa fa-trash text-danger"></i> </button>
+        </form>
+        
+        </div>
+    </div>
+    
+    <style>
+      
+    </style>

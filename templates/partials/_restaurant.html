@@ -1,0 +1,59 @@
+{% load static %}
+<div class="col-md-6 col-sm-6">
+    <div class="card mb-3 pb-0" style="max-width: 540px;">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            {% if restaurant.image %}
+            <img src="{{restaurant.image.url}}" class="card-img" alt="..." height="100%">
+            {% else %}
+            <img src="{% static 'images/nophoto.jpg' %}" class="card-img" alt="..." height="100%">
+            {% endif %}
+          </div>
+          <div class="col-md-8 mb-2">
+              <div class="row order-1">
+                  <img src="{% if restaurant.owner.userprofile.avatar %}
+                  {{restaurant.owner.userprofile.avatar.url}}
+                  {% else %}
+                  {% static 'images/user.png' %} 
+                  {% endif%}" alt="" height="40" width="40" style="border-radius:50%;margin-left:15px;">
+                  <a href="{{restaurant.owner.userprofile.get_absolute_url}}" class="mt-2 ml-2"> <h5 class="text-primary"> 
+                  {{restaurant.owner}} </h5> </a>
+              </div>
+            <div class="card-body">
+              <a href="{% url 'detail' restaurant.pk restaurant.slug %}" class="">
+                <h5 class="card-title text-danger">{{restaurant.name}}</h5>
+              </a>
+  <p class="text-muted" style="font-size:14px;line-height:5px;">{{restaurant.timestamp|timesince}} ago</p>
+              <div class="row" style="font-size:18px;line-height:10px;">
+                <div class="col-md-12">
+            <p class="">Location: <span class="text-danger">{{restaurant.location}}</span></p>
+            </div>
+                <div class="col-md-12">
+                  <p>Category: <span class="text-danger">{{restaurant.category}}</span></p>
+                </div>
+              </div>
+
+        <!-- <div class="row">
+          <div class="col-md-6 mr-auto">
+          <div class="row"> 
+        <div class="col-md-4"> 
+<button type="submit" class="btn btn-danger p-0 px-2"> <i class="fas fa-heart"> 2</i> </button>   </div>
+        <div class="col-md-4">
+  <button type="submit" class="btn btn-primary p-0 px-2"> <i class="fas fa-comment"></i> </button>
+        </div>
+          </div>
+          </div>
+        </div> -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+  <style>
+      a:hover{
+          text-decoration: none;
+         
+      }
+  </style>

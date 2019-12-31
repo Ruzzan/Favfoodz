@@ -1,0 +1,14 @@
+<form action="{% url 'follow' user.id %}" method="POST">
+        {% csrf_token %}
+        {% if request.user == user %}
+        <a href="#" class="btn btn-outline-dark btn-sm"> Edit Profile </a>
+        {% else %}
+        {% if is_following %}
+        <button type="submit" value="{{user.username}}" name="username"
+            class="btn btn-primary btn-sm"> unfollow </button>
+        {% else %}
+        <button type="submit" value="{{user.username}}" name="username"
+            class="btn btn-primary btn-sm"> follow </button>
+        {% endif %}
+        {% endif %}
+    </form>

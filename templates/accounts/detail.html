@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title%} {{user.username}} | FavFoodz {% endblock title %}
+
+{% block head %}
+<style>
+    #followers-count:hover {
+        font-weight: 600;
+        transition: 0.2s;
+        cursor: pointer;
+    }
+    @media screen and (max-width:400px) {
+        .container {
+            width: 100%;
+            margin: 0;
+        }
+        .card {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock head %}
+{% block content %}
+{% include 'partials/_alert.html' %}
+    <div class="card mt-2 pb-3" style="box-shadow:2px 7px 15px -4px rgba(0,0,0,0.5)">
+        <div class="row">
+            <!-- show the image user name followers and following here -->
+            <div class="col-md-3 ml-5">
+        <img src="{% if user.userprofile.avatar %}{{user.userprofile.avatar.url}}{%else%}
+        {% static 'images/user.png' %} {% endif %}
+        " alt="" width="130" height="130" style="border-radius: 50%;"
+                    class="ml-5-md mx-auto-sm">
+            </div>
+
+            <div class="col-md-6 mr-2 ml-2-sm">
+                <div class="row mt-2">
+                    <div class="col-md-3">
+                        <h5>
+                            {{user.username}} {% if user.userprofile.is_verified %} <i
+                                class="fas fa-certificate text-warning" data-toggle="tooltip" data-placement="right"
+                                title="Verified Profile"></i> {%endif %}
+                        </h5>
+                    </div>
+                    <div class="col-md-3">
+                        {% include 'partials/_followform.html' %}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mt-2" style="line-height:10px;">
+       <p data-toggle="modal" id='followers-count' data-target="#followers">{{followers.count}} followers </p>
+                        <p>{{user.restaurantmodel_set.all.count}} restaurants </p>
+                        <p>{{user.item_set.all.count}} menus </p>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- restaurant of user -->
+            <div class="container restaurant-list mt-2">
+                <hr>
+                <h5 class="text-danger ml-5">
+                 Restaurants {% if request.user == user %} <a href="{% url 'create' %}"> <i class="fas fa-plus-circle text-danger"></i> </a> {% endif %} </h5>
+                <div class="row">
+                    {% for restaurant in user.restaurantmodel_set.all %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card mx-auto" style="height:auto;width:250px;">
+                {% if request.user == restaurant.owner %}
+                {% include 'partials/_dropdownr.html' %}
+                {% endif %}
+            <img src="{% if restaurant.image %}{{ restaurant.image.url }}{% else %}
+                                    {% static 'images/nophoto.jpg'%} 
+                                {% endif %}
+                                " alt="" class="card-img-top" height="150">
+                            <div class="card-body h-100 text-center">
+                                <h5 class="card-title"><a href="{{restaurant.get_absolute_url}}" class="text-dark"><i
+                                            class="fa fa-home"></i> {{restaurant.name}} </a></h5>
+                                <div class="card-text mt-2">
+                                    <a href="{{restaurant.get_absolute_url}}" class="btn btn-success btn-sm mr-auto">
+                                 <i class="fas fa-info"></i> More
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="container menu-list">
+                <hr>
+                {% if user.item_set.all.count > 3 %}
+                <h5 class="text-danger ml-5" data-toggle="collapse" href="#collapseExample" role="button"
+                    aria-expanded="false" aria-controls="collapseExample">
+                    Menu (show more) {% if request.user == user %} <a href="{% url 'menu-create' %}"> <i class="fas fa-plus-circle text-danger"></i> </a> {% endif %}
+                </h5>
+                {% else %}
+                <h5 class="text-danger ml-5">Menus {% if request.user == user %} 
+        <a href="{% url 'menu-create' %}"> <i class="fas fa-plus-circle text-danger"></i> </a> {% endif %}</h5>
+                <div class="row" id="collapseExample">
+                    {% for item in user.item_set.all %}
+                   {% if request.user == item.user %}
+                   {% include 'partials/_menucard.html'%}
+                   {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <div class="row collapse" id="collapseExample">
+                        {% for item in user.item_set.all %}
+                        {% if request.user == item.user %}
+                   {% include 'partials/_menucard.html'%}
+                   {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Followers Modal -->
+    {% include 'partials/_followmodal.html' %}
+    <!-- dashboard view -->
+    {% include 'partials/_dashboard.html' %}
+    {% endblock content %}

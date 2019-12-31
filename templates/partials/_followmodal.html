@@ -1,0 +1,39 @@
+{% load static %}
+<div class="modal fade" id="followers" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content p-0" style="height: 300px;overflow-y:scroll;">
+            <div class="modal-header">
+              <h5 class="modal-title p-0" id="followers">Followers</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <ul class="list-group">
+                    {% for user in followers %}
+    <li class="list-group-item d-flex justify-content-center">
+        <img src="{% if user.userprofile.avatar%}{{user.userprofile.avatar.url}}{% else %}
+        {% static 'images/user.png' %} {%endif%}
+        " alt="" height="30" width="30" style="border-radius: 50%;border:1px ridge crimson;" class="mr-2">
+        <a href="{{user.userprofile.get_absolute_url}}" class="mr-2">{{user.username}}</a>
+        <form action="{% url 'follow' user.id %}" method="POST">
+                {% csrf_token %}
+                {% if request.user == user %}
+                <a href="#" class="btn btn-outline-dark btn-sm"> Edit Profile </a>
+                {% else %}
+                {% if is_following %}
+                <button type="submit" value="{{user.username}}" name="username"
+                    class="btn btn-primary btn-sm"> unfollow </button>
+                {% else %}
+                <button type="submit" value="{{user.username}}" name="username"
+                    class="btn btn-primary btn-sm"> follow </button>
+                {% endif %}
+                {% endif %}
+            </form>
+    </li>
+                    {% endfor %} 
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>

@@ -1,0 +1,11 @@
+
+<form action="{% url 'like' %}" method="post">
+    {% csrf_token %}
+    {% if is_liked %}
+    <button type="submit" class="btn btn-danger p-0 px-2" id="like" name="res_id" value="{{restaurant.id}}"> <i class="fas fa-heart"> {{total_likes.count}} </i>
+    </button> 
+    {% else %}
+    <button type="submit" class="btn btn-outline-danger p-0 px-2" id="like" name="res_id" value="{{restaurant.id}}"> <i class="fas fa-heart"> {{total_likes.count}} </i>
+    </button> 
+    {% endif %}
+</form>

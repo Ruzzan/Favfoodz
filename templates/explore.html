@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title%} Explore | FavFoodz {% endblock title %}
+
+{% block head %}
+<style>
+#discover {
+        height: 400px;
+        overflow-y:scroll;
+}
+.item-card:hover {
+        box-shadow:2px 7px 15px -4px rgba(0,0,0,0.5);
+        cursor: pointer;
+        transition: 0.3s;
+    }
+@media screen and (max-width: 500px) {
+        #discover {
+                height: auto;
+               margin-left: 4.5%;
+               margin-top: 10px;
+               padding: 10px 0px;
+        }
+}
+
+</style>
+{% endblock head %}
+{% block content %}
+{% include 'partials/_alert.html' %}
+<h3 class="text-danger ml-5"> Explore <i class="fas fa-compass"></i> </h3>
+<div class="row">
+        <div class="col-md-9 bg-light card mr-2 card py-2 col-sm-12 " style="box-shadow:2px 7px 15px -4px rgba(0,0,0,0.75);">
+                <div class="row">
+                        {% for item in res %}
+                        <div class="col-md-4 mb-3 main">
+                                <div class="card mx-auto item-card" style="height:auto;width:250px;">
+                                        <div class="row">
+                                                <img src="{% if item.owner.userprofile.avatar%}{{item.owner.userprofile.avatar.url}}{%else%}{%static 'images/user.png'%}{%endif%}" alt="" height="35"
+                                                        width="35" class="rounded-circle ml-3">
+                                                <a href="{{item.owner.userprofile.get_absolute_url}}"
+                                                        class="text-dark mt-2">
+                                                        <h6>{{item.owner.username}} </h6>
+                                                </a>
+                                        </div>
+                                        <img src="{% if item.image %}{{ item.image.url }}{% else %}
+                                                            {% static 'images/item.jpg' %}
+                                                        {% endif %}
+                                                        " alt="" class="card-img-top" height="150">
+                                        <div class="card-body" style="line-height: 12px;">
+                                                <h5 class="card-title text-danger">{{item.name}}</h5>
+                                                <p class="card-text text-muted"> Uploaded on: {{item.timestamp|date}}
+                                                </p>
+                                                <a href="{{item.get_absolute_url}}"
+                                                        class="btn btn-danger btn-sm py-0">more</a>
+                                        </div>
+                                </div>
+                        </div>
+                        {% endfor %}
+
+                        {% for item in mes %}
+                        <div class="col-md-4 mb-3 main">
+                                <div class="card mx-auto item-card" style="height:auto;width:250px;">
+                                        <div class="row">
+                                                <img src="{% if item.user.userprofile.avatar%}{{item.user.userprofile.avatar.url}}{%else%}{%static 'images/user.png'%}{%endif%}" alt="" height="35"
+                                                        width="35" class="rounded-circle ml-3">
+                                                <a href="{{item.user.userprofile.get_absolute_url}}"
+                                                        class="text-dark mt-2">
+                                                        <h6>{{item.user.username}} </h6>
+                                                </a>
+                                        </div>
+                                        <img src="{% if item.image %}{{ item.image.url }}{% else %}
+                                                            {% static 'images/item.jpg' %}
+                                                        {% endif %}
+                                                        " alt="" class="card-img-top" height="150">
+                                        <div class="card-body" style="line-height: 12px;">
+                                                <h5 class="card-title text-danger">{{item.name}}</h5>
+                                                <p class="card-text text-muted"> Uploaded on: {{item.timestamp|date}}
+                                                </p>
+                                                <a href="{{item.get_absolute_url}}"
+                                                        class="btn btn-danger btn-sm py-0">more</a>
+                                        </div>
+                                </div>
+                        </div>
+                        {% endfor %}
+                </div>
+        </div>
+
+        <div class="col-md-2 ml-md-2  card col-sm-12" id="discover" style="box-shadow:2px 7px 15px -4px rgba(0,0,0,0.75);width:90%;">
+                <div class="card-title bg-light text-center">
+                <h5> Discover People </h5>
+                </div>
+                <ul class="list-group">
+                {% for user in users %}
+        <li class="list-group-item py-0 px-0"> 
+        <img src="{% if user.avatar%}{{user.avatar.url}}{%else%}{%static 'images/user.png'%}{%endif%}" alt="" height="40" width="40" class="rounded-circle">    <span> <a href=" {{user.get_absolute_url}}">  {{user}} {% if user.is_verified %} <i
+                class="fas fa-certificate text-warning" data-toggle="tooltip" data-placement="right"
+                title="Verified Profile"></i> {% endif %} </a> </span>
+        
+        </li>
+                {% endfor %}
+                </ul>
+                
+        </div>
+
+</div>
+
+
+{% endblock content %}

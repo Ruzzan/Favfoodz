@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{%block title%} FavFoodz Home | Restaurants {% endblock title %}
+
+{% block head %}
+<style>
+    #pp{
+        height: 30px;
+        width: 30px;
+        border: 3px solid rgb(226, 20, 61);
+        border-radius: 50%;
+    }
+</style>
+{% endblock head %}
+{% block content %}
+    <h3 class="text-danger"> FavFoodz Restaurants </h3>
+    <span> 
+    <a href="{% url 'create' %}" class="badge badge-danger">Add Restaurants</a>
+    <a href="{% url 'menu-list' %}" class="badge badge-light"> Menus</a>
+    </span>
+    <div class="row">
+        {% if object_list %}
+        {% for restaurant in object_list %}
+            {% include 'partials/_restaurant.html' %}
+        {% endfor %}
+        {% else %}
+        <h3 class="text-danger">  Explore and follow peoples to see their uploads.
+        </h3>
+        <a href="{% url 'explore' %}" class="btn btn-outline-danger"> Explore </a>
+        {% endif %}
+    </div>
+    {% include 'partials/_menu.html' %}
+{% endblock content %}

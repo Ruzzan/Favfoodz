@@ -1,0 +1,16 @@
+{% if messages %}
+    {% for message in messages %}
+    <div id="message" class="container mt-2 py-0">
+        <div class="alert alert-{{message.tags}} alert-dismissable text-center py-0" role="alert">
+            <button class="close" type="button" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+            <strong> {{message}}</strong>
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
+
+<script>
+    setTimeout(function() {
+        $('#message').fadeOut('slow')
+    },3000);
+</script>

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %} Signup {% endblock title %}
+
+{% block content %}
+    <div class="row">
+        {% if request.user == user %}
+        <div class="col-md-6 col-sm-12 mx-auto card mt-2">
+            <h3 class="text-center text-danger">Update</h3>
+            <img src="{{user.userprofile.avatar.url}}" alt="" class="rounded-circle" height="50" width="50">
+            <p class="text-danger text-center"> {{error}} </p>
+            <form action="{% url 'edit-profile' user.username %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group mr-5">
+                    <input type="text" name="username" id="" class="form-control mt-2" placeholder="Username" value="{{user.username}}"> 
+                    <input type="email" name="email" id="" class="form-control mt-2"  placeholder="Email" value="{{user.email}}"> 
+                    <input type="password" id="password1" name="password1" id="" class="form-control mt-2" placeholder="new password" value="{{user.password}}">
+                  <input type="file" src="" alt="" name="avatar" class="mt-2" value="{{user.userprofile.avatar.url}}">
+                    <input type="submit" value="Update" class="btn btn-success btn-block mt-2">
+
+                </div>
+                
+            </form>
+        </div>
+        {% else %}
+        <h3 class="text-danger text-center"> Error occoured </h3>
+        {% endif%}
+    </div>
+{% endblock content %}

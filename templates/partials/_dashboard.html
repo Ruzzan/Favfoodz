@@ -1,0 +1,28 @@
+{% if request.user == user %}
+
+<div class="row">
+        <div class="card mt-2 col-md-6 mx-auto" style="box-shadow:2px 7px 15px -4px rgba(0,0,0,0.5)">
+             <h4 class="card-header text-center text-white bg-danger">My Bookmarks <i class="fas fa-bookmark"></i></h4>
+<div class="card-body">
+        <ul class="list-group">
+                {% for restaurant in dashboard_items %}
+                    <li class="list-group-item-inline  d-flex justify-content-between">
+<a href="{{restaurant.get_absolute_url}}" class="text-muted"><h5>{{restaurant}}</h5></a> 
+        <form action="{% url 'remove-dashboard' %}" method="post" class="form-inline">
+                            {% csrf_token %}
+<a href="{{restaurant.get_absolute_url}}" class="btn btn-primary btn-sm mr-2"><i class="fas fa-eye"></i>
+</a>
+                 <button type="submit" name="favrest" value="{{restaurant.id}}" class="btn btn-sm btn-danger"> <i class="fas fa-trash"></i> </button>
+         </form>
+</div>
+    </li>
+                {% empty %}
+                <h5 class="text-danger text-center"> No items saved yet. </h5>
+                {% endfor %}
+                    </ul>
+</div>
+            </div>
+    </div>
+
+{% endif %}
+            

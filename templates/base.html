@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> {%block title%} {% endblock title%} </title>
+    {% block head %} {% endblock head %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-danger p-0">
+        <div class="container">
+    <a href="{% url 'home' %}" class="navbar-brand text-bold">FavFoodz <i class="fas fa-utensils"></i></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class=""> <i class="fa fa-bars text-light"></i> </span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText"> 
+          <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                  <a href="{% url 'home' %}" class="nav-link">Restaurant</a>
+              </li>
+              <li class="nav-item">
+                      <a href="{% url 'menu-list' %}" class="nav-link">Menus</a>
+              </li>
+              <li class="nav-item">
+                  <a href="{% url 'explore' %}" class="nav-link">Explore</a>
+          </li>
+            </ul>
+          <ul class="navbar-nav mx-auto">
+              <li class="nav-item">
+                  <form action="{% url 'search' %}" class="form-inline" method="GET">
+                <input type="search" name="q" class="text-white" id="inp" placeholder="restaurants,foods,peoples" class="text-light">
+                      <button type="submit"> <i class="fa fa-search text-white"></i> </button>
+                  </form>
+              </li>
+          </ul>
+          
+          <ul class="navbar-nav ml-auto">
+            {% if request.user.is_authenticated %}
+            <li class="nav-item"><a href="{% url 'profile-detail' request.user.username %}" class="nav-link"><i class="fas fa-user-circle"></i> {{request.user.username}}</a></li>
+            <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Logout</a></li>
+            {% else %}
+              <li class="nav-item"><a href="{% url 'signup' %}" class="nav-link">Signup</a></li>
+              <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">Login</a></li>
+              {% endif %}
+          </ul>
+
+          
+      </div>
+    
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content%} {% endblock content %}
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" id="con">
+          <div class="modal-body">
+            <form action="{% url 'search' %}" method="get" class="form-group" id="form-grp">
+                <input type="text" name="q" id="searchbox" class="" placeholder="Search for restaurants, foods, people">
+                <input type="submit" value="search" id="searchbtn" class="">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <!--bootstrap-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+
+</body>
+<style>
+
+  #searchbox {
+      height: 35px;
+      width: 350px;
+      position: absolute;
+      border: crimson 1px solid;
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+  }
+  #searchbtn {
+      height: 35px;
+      position: absolute;
+      background:#d9534f;
+      color: snow;
+      right: 12%;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      border: none;
+  }
+  #searchbtn:hover {
+      background: crimson;
+      transition: 0.5s;
+  }
+  #form-grp {
+      position: relative;
+      bottom: 5%;
+      left: 5%;
+  }
+  #con{
+      height: 55px !important;   
+      background: none;
+      border: none;
+  }
+  
+  #inp{
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid snow;
+    color: snow;
+    outline: none;
+}
+button {
+    background: none;
+    border: none;
+}
+#inp:focus {
+    border-color: snow;
+    color: snow;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: snow;
+  opacity: 1; /* Firefox */
+}
+
+@media screen and (max-width: 500px){
+  #searchbox {
+    width: auto;
+  } 
+  
+  .form-grp {
+    width: 90%;
+  }
+}
+</style>
+</html>

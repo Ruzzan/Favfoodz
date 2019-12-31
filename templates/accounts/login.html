@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} Login {% endblock title %}
+
+{% block content %} 
+
+<!-- Message alert -->
+{% include 'partials/_alert.html' %}
+    <div class="row">
+        <div class="col-md-6 mx-auto col-sm-12 card mt-2">
+            <h3 class="text-center text-danger"> Login </h3>
+            <p class="text-danger text-center"> {{error}} </p>
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group mr-5">
+                    <input type="text" name="username" id="" class="form-control" placeholder="Username">
+                    <input type="password" name="password" id="" class="form-control mt-2" placeholder="Password">
+                    <input type="submit" value="Login" class="btn btn-block btn-danger mt-2">
+                </div>
+                <small> Not registered yet? <a href="{% url 'signup' %}">Signup</a> </small>
+            </form>
+        </div>
+    </div>
+
+
+{% endblock content %}

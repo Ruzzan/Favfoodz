@@ -1,0 +1,56 @@
+{% load static %}
+{% if item.public %}
+        <div class="col-md-4 col-sm-12 mb-3 main">
+                <div class="card mx-auto x" style="height:auto;width:250px;">
+                    {% if request.user == item.user %}
+                    {% include 'partials/_dropdownm.html' %}
+                    {% endif %}
+                <img src="{% if item.image %}{{ item.image.url }}{% else %}
+                    {% static 'images/item.jpg' %}
+                {% endif %}
+                " alt="" class="card-img-top" height="150" >
+                <div class="card-body ">
+                    <h5 class="card-title"><a href="{{item.get_absolute_url}}" class="text-dark"><i class="fa fa-utensils"></i> {{item.name}} </a></h5>
+                
+                <a href="{{item.get_absolute_url}}" class="badge badge-success badge-pill">
+                    <i class="fas fa-info"></i> More
+                </a> 
+                
+                </div>
+                </div>
+        </div>
+{% endif %}
+
+        {% if not item.public and request.user == item.user %}
+        <div class="col-md-4 mb-3 main">
+                <div class="card mx-auto x" style="height:auto;width:250px;">
+                <img src="{% if item.image %}{{ item.image.url }}{% else %}
+                    {% static 'images/item.jpg' %}
+                {% endif %}
+                " alt="" class="card-img-top" height="150" >
+                <div class="card-body h-100 text-center">
+                    <h5 class="card-title"><a href="{{item.get_absolute_url}}" class="text-dark"><i class="fa fa-utensils"></i> {{item.name}} </a></h5>
+                <div class="card-text mt-2">
+                <a href="{{item.get_absolute_url}}" class="badge badge-success badge-pill">
+                    <i class="fas fa-info"></i> More
+                </a>
+                <a href="" class="badge badge-danger badge-pill">
+                    <i class="fas fa-user-shield"></i> Private
+                </a> 
+                </div>
+                </div>
+                </div>
+        </div>
+        {% endif %}
+        <style>
+            .card:hover {
+                box-shadow:2px 7px 15px -4px rgba(0,0,0,0.75);
+                cursor: pointer;
+                transition: 0.2s;
+            }
+            @media screen and (max-width:500px) {
+                .x {
+                    width: auto;
+                }
+            }
+        </style>
